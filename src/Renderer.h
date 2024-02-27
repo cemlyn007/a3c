@@ -1,10 +1,10 @@
 #include <SDL2/SDL.h>
-
+#include <vector>
 class Renderer {
 public:
   Renderer(int cells, int window_size);
   ~Renderer();
-  void render();
+  void render(std::vector<int>& snake, int food);
   void close();
   bool should_close() { return is_quit; };
   const int cells;
@@ -17,4 +17,6 @@ private:
   SDL_Renderer *window_renderer;
 
   void draw_grid();
+  void draw_snake(std::vector<int>& snake);
+  void draw_food(int food);
 };

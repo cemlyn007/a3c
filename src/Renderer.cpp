@@ -24,7 +24,7 @@ Renderer::Renderer(int cells, int window_size)
   }
 }
 
-void Renderer::render() {
+void Renderer::render(std::vector<int>& snake, int food) {
   SDL_Event event;
   if (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
@@ -35,6 +35,8 @@ void Renderer::render() {
   SDL_RenderClear(window_renderer);
 
   draw_grid();
+  draw_snake(snake);
+  draw_food(food);
 
   SDL_SetRenderDrawColor(window_renderer, 0, 0, 0, 255);
 
@@ -51,6 +53,24 @@ void Renderer::draw_grid() {
     // Draw the vertical lines
     { SDL_RenderDrawLine(window_renderer, x, 0, x, window_size); }
   }
+}
+
+void Renderer::draw_snake(std::vector<int>& snake) {
+  SDL_SetRenderDrawColor(window_renderer, 0, 255, 0, 255);
+  for (int i = 0; i < snake.size(); i++) {
+    int x = (snake[i] % cells) * (window_size / cells);
+    int y = (snake[i] / cells) * (window_size / cells);
+    SDL_Rect rect = {x, y, window_size / cells, window_size / cells};
+    SDL_RenderFillRect(window_renderer, &rect);
+  }
+}
+
+void Renderer::draw_food(int food) {
+  SDL_SetRenderDrawColor(window_renderer, 255, 0, 0, 255);
+  int x = (food % cells) * (window_size / cells);
+  int y = (food / cells) * (window_size / cells);
+  SDL_Rect rect = {x, y, window_size / cells, window_size / cells};
+  SDL_RenderFillRect(window_renderer, &rect);
 }
 
 Renderer::~Renderer() { close(); }
