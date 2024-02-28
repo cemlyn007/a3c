@@ -26,7 +26,6 @@ int main() {
     };
 
     auto mlx_action = mlx::core::array(action, mlx::core::int32);
-    std::cout << mlx_action.ndim() << std::endl;
     auto new_state = environment.step(state, mlx_action);
 
     new_state.snake.eval();
