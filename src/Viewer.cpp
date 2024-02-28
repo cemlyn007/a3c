@@ -1,15 +1,15 @@
-#include "Renderer.h"
+#include "Viewer.h"
 #include <stdexcept>
 
-Renderer::Renderer(int cells, int window_size)
+Viewer::Viewer(int cells, int window_size)
     : cells(cells), window_size(window_size) {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     throw std::runtime_error("Failed to initialize the SDL2 library");
   }
 
   window =
-      SDL_CreateWindow("Snake", SDL_WINDOWPOS_CENTERED,
-                       SDL_WINDOWPOS_CENTERED, window_size, window_size, 0);
+      SDL_CreateWindow("Snake", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                       window_size, window_size, 0);
 
   if (!window) {
     throw std::runtime_error("Failed to create window");
@@ -24,7 +24,35 @@ Renderer::Renderer(int cells, int window_size)
   }
 }
 
-void Renderer::render(std::vector<int>& snake, int food) {
+int Viewer::get_action() {
+  SDL_Event event;
+  while (!is_quit) {
+    if (SDL_PollEvent(&event)) {
+      if (event.type == SDL_QUIT) {
+        is_quit = true;
+        return -1;
+      } else if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+        case SDLK_LEFT:
+          return 0;
+        case SDLK_RIGHT:
+          return 1;
+        case SDLK_UP:
+          return 2;
+        case SDLK_DOWN:
+          return 3;
+        }
+      }
+    }
+  }
+  if (SDL_PollEvent(&event)) {
+    if (event.type == SDL_KEYUP) {
+      is_quit = true;
+    }
+  }
+}
+
+void Viewer::render(std::vector<int> &snake, int food) {
   SDL_Event event;
   if (SDL_PollEvent(&event)) {
     if (event.type == SDL_QUIT) {
@@ -43,7 +71,7 @@ void Renderer::render(std::vector<int>& snake, int food) {
   SDL_RenderPresent(window_renderer);
 }
 
-void Renderer::draw_grid() {
+void Viewer::draw_grid() {
   SDL_SetRenderDrawColor(window_renderer, 255, 255, 255, 255);
   for (int i = 0; i < cells; i++) {
     int x = i * (window_size / cells);
@@ -55,7 +83,7 @@ void Renderer::draw_grid() {
   }
 }
 
-void Renderer::draw_snake(std::vector<int>& snake) {
+void Viewer::draw_snake(std::vector<int> &snake) {
   SDL_SetRenderDrawColor(window_renderer, 0, 255, 0, 255);
   for (int i = 0; i < snake.size(); i++) {
     int x = (snake[i] % cells) * (window_size / cells);
@@ -65,7 +93,7 @@ void Renderer::draw_snake(std::vector<int>& snake) {
   }
 }
 
-void Renderer::draw_food(int food) {
+void Viewer::draw_food(int food) {
   SDL_SetRenderDrawColor(window_renderer, 255, 0, 0, 255);
   int x = (food % cells) * (window_size / cells);
   int y = (food / cells) * (window_size / cells);
@@ -73,9 +101,9 @@ void Renderer::draw_food(int food) {
   SDL_RenderFillRect(window_renderer, &rect);
 }
 
-Renderer::~Renderer() { close(); }
+Viewer::~Viewer() { close(); }
 
-void Renderer::close() {
+void Viewer::close() {
   SDL_DestroyWindow(window);
   SDL_Quit();
 }

@@ -1,12 +1,13 @@
 #include <SDL2/SDL.h>
 #include <vector>
-class Renderer {
+class Viewer {
 public:
-  Renderer(int cells, int window_size);
-  ~Renderer();
+  Viewer(int cells, int window_size);
+  ~Viewer();
   void render(std::vector<int>& snake, int food);
   void close();
   bool should_close() { return is_quit; };
+  int get_action();
   const int cells;
 
 private:

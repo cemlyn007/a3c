@@ -10,7 +10,7 @@ include(FetchContent)
 FetchContent_Declare(
     mlx
     GIT_REPOSITORY "https://github.com/ml-explore/mlx.git"
-    GIT_TAG        "ac02cf33bd77454ce3c3bcb5eec571b5cd6766d6"
+    GIT_TAG        "f5f18b704fb0a77f6bd56dbaeb687464dcb24bd5"
 )
 FetchContent_MakeAvailable(mlx)
 
@@ -21,6 +21,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(sdl)
 
-add_executable(a3c src/main.cpp src/Renderer.cpp)
+add_executable(a3c src/main.cpp src/Viewer.cpp src/Environment.cpp)
 target_include_directories(a3c PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(a3c PRIVATE mlx SDL2::SDL2)
