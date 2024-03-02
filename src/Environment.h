@@ -1,4 +1,3 @@
-#include <tuple>
 #include "mlx/mlx.h"
 
 
@@ -10,7 +9,7 @@ struct State {
 class Environment {
 public:
   Environment(int cells);
-  State step(State& state, mlx::core::array& action);
+  State step(const State& state, const mlx::core::array& action);
 private:
   const int cells;
 };
