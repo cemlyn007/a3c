@@ -50,6 +50,7 @@ int Viewer::get_action() {
       is_quit = true;
     }
   }
+  return -1;
 }
 
 void Viewer::render(std::vector<int> &snake, int food) {
@@ -74,8 +75,8 @@ void Viewer::render(std::vector<int> &snake, int food) {
 void Viewer::draw_grid() {
   SDL_SetRenderDrawColor(window_renderer, 255, 255, 255, 255);
   for (int i = 0; i < cells; i++) {
-    int x = i * (window_size / cells);
-    int y = i * (window_size / cells);
+    int x = (i * window_size) / cells;
+    int y = (i * window_size) / cells;
     // Draw the horizontal lines
     { SDL_RenderDrawLine(window_renderer, 0, y, window_size, y); }
     // Draw the vertical lines
