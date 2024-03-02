@@ -45,16 +45,16 @@ int main() {
   auto compiled_step = mlx::core::compile(step);
 
   auto count = 0;
-
   for (int i = 0; i < cells * cells; i++) {
     auto state = State{.snake = mlx_snake, .food = mlx::core::array(food, mlx::core::int32)};
     auto mlx_action = mlx::core::random::randint(0, 4, {}, mlx::core::int32);
+    mlx_action.eval();
     auto start = std::chrono::high_resolution_clock::now();
     auto new_state_vector = compiled_step({state.snake, state.food, mlx_action});
     state = State{.snake = new_state_vector[0], .food = new_state_vector[1]};
     food = state.food.item<int>();
     auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << " microseconds" << std::endl;
+    std::cout << "[" << i << "] Time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << " microseconds" << '\n';
     count += std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
   }
   std::cout << "Average time: " << count / (cells * cells) << " microseconds" << std::endl;
