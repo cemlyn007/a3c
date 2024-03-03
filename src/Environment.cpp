@@ -121,5 +121,5 @@ State Environment::step(const State &state, const mlx::core::array &action) {
     ) + mlx::core::where(next_snake_mask, {1}, {0}),
     next_snake);
 
-  return State{next_snake, next_food};
+  return State{next_snake, next_food, next_head};
 }

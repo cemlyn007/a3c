@@ -27,7 +27,7 @@ std::vector<mlx::core::array> step(const std::vector<mlx::core::array> &args) {
   auto state = State{.snake = args[0], .food = args[1]};
   Environment environment(N_CELLS);
   auto new_state = environment.step(state, args[2]);
-  return {args[0], args[1]};
+  return {new_state.snake, new_state.food};
 };
 
 int main() {

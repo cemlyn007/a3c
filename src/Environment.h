@@ -4,6 +4,7 @@
 struct State {
   mlx::core::array snake;
   mlx::core::array food;
+  mlx::core::array head;
 };
 
 class Environment {
