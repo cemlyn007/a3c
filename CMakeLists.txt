@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(a3c LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 # Note that this needs to change on different systems.
 set(PKG_CONFIG_EXECUTABLE /Users/cemlyn/conda/envs/cpp/bin/pkg-config)
 
