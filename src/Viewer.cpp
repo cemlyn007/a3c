@@ -69,36 +69,49 @@ void Viewer::render(std::vector<int> &snake, int food) {
 
   SDL_SetRenderDrawColor(window_renderer, 0, 0, 0, 255);
 
+  SDL_RenderFlush(window_renderer);
+
   SDL_RenderPresent(window_renderer);
 }
 
 void Viewer::draw_grid() {
   SDL_SetRenderDrawColor(window_renderer, 255, 255, 255, 255);
   for (int i = 0; i < cells; i++) {
-    int x = (i * window_size) / cells;
-    int y = (i * window_size) / cells;
+    int v = (i * window_size) / cells;
     // Draw the horizontal lines
-    { SDL_RenderDrawLine(window_renderer, 0, y, window_size, y); }
+    SDL_RenderDrawLine(window_renderer, 0, v, window_size, v); 
     // Draw the vertical lines
-    { SDL_RenderDrawLine(window_renderer, x, 0, x, window_size); }
+    SDL_RenderDrawLine(window_renderer, v, 0, v, window_size);
   }
 }
 
 void Viewer::draw_snake(std::vector<int> &snake) {
   SDL_SetRenderDrawColor(window_renderer, 0, 255, 0, 255);
   for (int i = 0; i < snake.size(); i++) {
-    int x = (snake[i] % cells) * (window_size / cells);
-    int y = (snake[i] / cells) * (window_size / cells);
-    SDL_Rect rect = {x, y, window_size / cells, window_size / cells};
+    int column = (snake[i] % cells);
+    int row = (snake[i] / cells);
+    int x = (column * window_size) / cells;
+    int y = (row * window_size) / cells;
+    int x1 = ((column + 1) * window_size) / cells;
+    int y1 = ((row + 1) * window_size) / cells;
+    int width = x1 - x;
+    int height = y1 - y;
+    SDL_Rect rect = {x, y, width, height};
     SDL_RenderFillRect(window_renderer, &rect);
   }
 }
 
 void Viewer::draw_food(int food) {
   SDL_SetRenderDrawColor(window_renderer, 255, 0, 0, 255);
-  int x = (food % cells) * (window_size / cells);
-  int y = (food / cells) * (window_size / cells);
-  SDL_Rect rect = {x, y, window_size / cells, window_size / cells};
+  int column = (food % cells);
+  int row = (food / cells);
+  int x = (column * window_size) / cells;
+  int y = (row * window_size) / cells;
+  int x1 = ((column + 1) * window_size) / cells;
+  int y1 = ((row + 1) * window_size) / cells;
+  int width = x1 - x;
+  int height = y1 - y;
+  SDL_Rect rect = {x, y, width, height};
   SDL_RenderFillRect(window_renderer, &rect);
 }
 
