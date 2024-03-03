@@ -44,7 +44,7 @@ std::vector<mlx::core::array> step(const std::vector<mlx::core::array> &args) {
 
 int main() {
   int cells = N_CELLS;
-  Viewer renderer(cells, 720);
+  Viewer renderer(cells, 720, false);
 
   int food = 25;
   auto mlx_snake = mlx::core::scatter(

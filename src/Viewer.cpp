@@ -1,8 +1,8 @@
 #include "Viewer.h"
 #include <stdexcept>
 
-Viewer::Viewer(int cells, int window_size)
-    : cells(cells), window_size(window_size) {
+Viewer::Viewer(int cells, int window_size, bool show_grid)
+    : cells(cells), window_size(window_size), show_grid(show_grid) {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     throw std::runtime_error("Failed to initialize the SDL2 library");
   }
@@ -63,7 +63,9 @@ void Viewer::render(std::vector<int> &snake, int food) {
 
   SDL_RenderClear(window_renderer);
 
-  draw_grid();
+  if (show_grid) {
+    draw_grid();
+  }
   draw_snake(snake);
   draw_food(food);
 
